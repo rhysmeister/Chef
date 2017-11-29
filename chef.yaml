@@ -1,0 +1,15 @@
+---
+  - hosts: all
+    gather_facts: yes
+    become: yes
+    vars:
+      install_chef_solo: True
+      install_chef_server: True
+
+    tasks:
+
+      - name: Install Chef-Solo
+        when: install_chef_solo == True
+
+      - name: Install Chef Server
+        when: install_chef_server == True
