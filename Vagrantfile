@@ -6,13 +6,13 @@ Vagrant.configure("2") do |config|
     vb.customize [
       "modifyvm", :id,
       "--name", "Chef",
-      "--memory", "8192"
+      "--memory", "4192"
     ]
   end
 
   config.vm.hostname = "Chef"
   config.vm.network "private_network", ip: "192.168.4.145"
-  
+
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "chef.yaml"
   end

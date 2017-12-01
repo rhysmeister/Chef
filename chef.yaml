@@ -5,11 +5,47 @@
     vars:
       install_chef_solo: True
       install_chef_server: True
+      additional_packages: [ "curl",
+                             "gpgme",
+                             "epel-release",
+                             "centos-release-scl" ]
+      chef_solo_home: "/home/vagrant"
 
     tasks:
 
+      - name: Ensure additional packages are installed
+        yum:
+          name: "{{ item }}"
+          state: latest
+        with_items: "{{ additional_packages }}"
+
+      - name: Enable ruby collections repo
+        shell: yum-config-manager --enable rhel-server-rhscl-7-rpms && touch ruby_collections_repo.enabled
+        args:
+          creates: ruby_collections_repo.enabled
+
+      - name: Install latest ruby22
+        yum:
+          name: [ "rh-ruby22", "rh-ruby22-ruby-devel" ]
+          state: latest
+
+      - name: Copy rvm_installer.sh script to  host
+        copy:
+          src: bash/rvm_installer.sh
+          dest: /home/vagrant
+          owner: vagrant
+          group: vagrant
+          mode: 0700
+        become: no
+
       - name: Install Chef-Solo
-        when: install_chef_solo == True
+        script: "bash/chef-solo.sh {{ chef_solo_home }}"
+        args:
+          creates:
+            chef-solo.success
+        become: no
 
       - name: Install Chef Server
+        debug:
+          msg: "Hello World!"
         when: install_chef_server == True
