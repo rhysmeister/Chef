@@ -24,4 +24,4 @@ scl enable rh-ruby22 bash &
 source ~/.rvm/scripts/rvm;
 rvm install 2.4.1;
 rvm use 2.4.1@chef --create;
-gem install chef;
+gem install chef && touch chef-solo.success;
