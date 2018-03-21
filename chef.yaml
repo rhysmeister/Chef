@@ -9,7 +9,6 @@
                              "gpgme",
                              "epel-release",
                              "centos-release-scl" ]
-      chef_solo_home: "/home/vagrant"
 
     tasks:
 
@@ -39,7 +38,7 @@
         become: no
 
       - name: Install Chef-Solo
-        script: "bash/chef-solo.sh {{ chef_solo_home }}"
+        script: bash/chef-solo.sh
         args:
           creates:
             chef-solo.success

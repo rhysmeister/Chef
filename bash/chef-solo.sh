@@ -3,14 +3,12 @@ set -e;
 #set -u;
 set -o pipefail;
 
-HOME_DIR="$1";
-
 function finish() {
   s=$?;
   if [ "$s" -eq 0 ]; then
-      touch "$HOME_DIR/chef-solo.success" && rm -f "$HOME_DIR/chef-solo.failed";
+      touch "$HOME/chef-solo.success" && rm -f "$HOME/chef-solo.failed";
   else
-    touch "$HOME_DIR/chef-solo.failed" && rm -f "$HOME_DIR/chef-solo.success";
+    touch "$HOME/chef-solo.failed" && rm -f "$HOME/chef-solo.success";
   fi;
   exit $s;
 }
