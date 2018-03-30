@@ -44,7 +44,13 @@
             chef-solo.success
         become: no
 
-      - name: Install Chef Server
-        debug:
-          msg: "Hello World!"
-        when: install_chef_server == True
+      - name: Update bash profile with path to chef stuff
+        lineinfile:
+          path: .bash_profile
+          regexp: "{{ item['regexp'] }}"
+          line: "{{ item['line'] }}"
+        with_items:
+          #- { "regexp": '^export PATH=\$PATH:.rvm/gems/ruby-2.4.1@chef/bin/',
+          #    "line": "export PATH=$PATH:$HOME/.rvm/gems/ruby-2.4.1@chef/bin/" }
+          - { "regexp": '^rvm use ruby-2.4.1@chef',
+              "line": 'rvm use ruby-2.4.1@chef' }
